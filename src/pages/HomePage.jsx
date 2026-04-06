@@ -1,5 +1,5 @@
 import EmergencyButton from '../components/EmergencyButton';
-import GoogleMapCard from '../components/GoogleMapCard';
+import SafetyMap from '../components/SafetyMap';
 
 function HomePage({ selectedProfile }) {
   return (
@@ -44,7 +44,7 @@ function HomePage({ selectedProfile }) {
             </div>
 
             <div className="mt-5">
-              <GoogleMapCard />
+              <SafetyMap />
             </div>
           </div>
         </section>

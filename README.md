@@ -1,6 +1,6 @@
 # SafeSpace
 
-SafeSpace is a React web app for finding safer nearby places. This setup currently includes Firebase email/password authentication, profile selection, a home page, and Google Maps integration for the user's current location.
+SafeSpace is a React web app for finding safer nearby places. This setup currently includes Firebase email/password authentication, profile selection, a home page, and an OpenStreetMap map built with React Leaflet.
 
 ## Setup
 
@@ -9,9 +9,8 @@ SafeSpace is a React web app for finding safer nearby places. This setup current
    npm install
    ```
 2. Create a `.env` file in the project root.
-3. Add your Google Maps API key:
+3. Add your Firebase configuration:
    ```env
-   VITE_GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
    VITE_FIREBASE_API_KEY=your_firebase_api_key
    VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
    VITE_FIREBASE_PROJECT_ID=your_project_id
@@ -37,13 +36,9 @@ SafeSpace is a React web app for finding safer nearby places. This setup current
 
 The app uses Firebase email/password authentication for login and signup.
 
-## Google Maps API Key
+## Map Setup
 
-1. Open the Google Cloud Console.
-2. Create or select a project.
-3. Enable the Maps JavaScript API.
-4. Create an API key under Credentials.
-5. Paste the key into `.env` using the `VITE_GOOGLE_MAPS_API_KEY` variable.
+The app uses OpenStreetMap tiles through React Leaflet. No API key is required.
 
 If location access is denied in the browser, the app falls back to a default map center.
 
@@ -59,7 +54,6 @@ If location access is denied in the browser, the app falls back to a default map
 2. Import the repository into Vercel.
 3. Vercel should detect the app as a Vite project automatically.
 4. Set these environment variables in the Vercel project settings:
-   - `VITE_GOOGLE_MAPS_API_KEY`
    - `VITE_FIREBASE_API_KEY`
    - `VITE_FIREBASE_AUTH_DOMAIN`
    - `VITE_FIREBASE_PROJECT_ID`

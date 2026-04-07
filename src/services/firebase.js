@@ -10,6 +10,18 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-const app = initializeApp(firebaseConfig);
+const requiredFirebaseKeys = Object.entries(firebaseConfig).filter(
+  ([, value]) => !value,
+);
 
-export const auth = getAuth(app);
+export const isFirebaseConfigured = requiredFirebaseKeys.length === 0;
+
+export const firebaseConfigError = isFirebaseConfigured
+  ? ''
+  : `Missing Firebase environment variables: ${requiredFirebaseKeys
+      .map(([key]) => key)
+      .join(', ')}`;
+
+const app = isFirebaseConfigured ? initializeApp(firebaseConfig) : null;
+
+export const auth = app ? getAuth(app) : null;

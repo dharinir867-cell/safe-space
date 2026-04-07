@@ -3,8 +3,9 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
-import { auth } from './services/firebase';
+import { auth, isFirebaseConfigured } from './services/firebase';
 import AuthPage from './pages/AuthPage';
+import ConfigErrorPage from './pages/ConfigErrorPage';
 import ProfileSelectionPage from './pages/ProfileSelectionPage';
 import HomePage from './pages/HomePage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -15,6 +16,11 @@ function App() {
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   useEffect(() => {
+    if (!auth) {
+      setIsCheckingAuth(false);
+      return undefined;
+    }
+
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setIsCheckingAuth(false);
@@ -27,6 +33,18 @@ function App() {
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-100 text-sm text-slate-600">
         Checking authentication...
+      </div>
+    );
+  }
+
+  if (!isFirebaseConfigured) {
+    return (
+      <div className="min-h-screen bg-slate-100 text-slate-900">
+        <Routes>
+          <Route element={<Layout user={null} />}>
+            <Route path="*" element={<ConfigErrorPage />} />
+          </Route>
+        </Routes>
       </div>
     );
   }

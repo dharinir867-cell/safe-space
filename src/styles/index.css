@@ -13,7 +13,10 @@
 
   body {
     margin: 0;
-    background: #f8fafc;
+    background:
+      radial-gradient(circle at top left, rgba(125, 211, 252, 0.28), transparent 28%),
+      radial-gradient(circle at top right, rgba(251, 207, 232, 0.24), transparent 22%),
+      linear-gradient(180deg, #eff6ff 0%, #f8fbff 46%, #fdf2f8 100%);
     color: #0f172a;
   }
 
@@ -53,6 +56,10 @@
     animation: float 5.2s ease-in-out infinite;
     animation-delay: 0.4s;
   }
+
+  .animate-glow {
+    animation: glow 3.8s ease-in-out infinite;
+  }
 }
 
 @keyframes fade-in-up {
@@ -75,5 +82,18 @@
 
   50% {
     transform: translateY(-8px);
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    opacity: 0.72;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.06);
   }
 }

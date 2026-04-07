@@ -44,6 +44,18 @@ function createSafetyIcon(score) {
   });
 }
 
+function getScoreLabel(score) {
+  if (score >= 75) {
+    return 'Safe';
+  }
+
+  if (score >= 45) {
+    return 'Moderate';
+  }
+
+  return 'Risky';
+}
+
 function RecenterMap({ center }) {
   const map = useMap();
 
@@ -123,6 +135,9 @@ function SafetyMap({ selectedProfile, selectedCategory, searchQuery }) {
   }, [nearbyLocations, searchQuery, selectedCategory]);
 
   const hasSearchSelection = Boolean(selectedCategory || searchQuery.trim());
+  const highestScore = filteredLocations.length
+    ? Math.max(...filteredLocations.map((location) => location.safetyScore))
+    : 0;
 
   useEffect(() => {
     if (!selectedLocation) {
@@ -134,6 +149,17 @@ function SafetyMap({ selectedProfile, selectedCategory, searchQuery }) {
     );
 
     setSelectedLocation(updatedSelection || null);
+  }, [filteredLocations, selectedLocation]);
+
+  useEffect(() => {
+    if (!filteredLocations.length) {
+      setSelectedLocation(null);
+      return;
+    }
+
+    if (!selectedLocation) {
+      setSelectedLocation(filteredLocations[0]);
+    }
   }, [filteredLocations, selectedLocation]);
 
   if (!hasSearchSelection) {
@@ -155,6 +181,33 @@ function SafetyMap({ selectedProfile, selectedCategory, searchQuery }) {
 
   return (
     <div className="space-y-3">
+      <div className="grid gap-3 sm:grid-cols-3">
+        <div className="rounded-[1.5rem] border border-slate-200 bg-white px-4 py-4 shadow-sm">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+            Nearby Results
+          </p>
+          <p className="mt-2 text-2xl font-semibold text-slate-900">
+            {filteredLocations.length}
+          </p>
+        </div>
+        <div className="rounded-[1.5rem] border border-slate-200 bg-white px-4 py-4 shadow-sm">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+            Best Score
+          </p>
+          <p className="mt-2 text-2xl font-semibold text-slate-900">
+            {highestScore || '--'}
+          </p>
+        </div>
+        <div className="rounded-[1.5rem] border border-slate-200 bg-white px-4 py-4 shadow-sm">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+            Search State
+          </p>
+          <p className="mt-2 text-lg font-semibold text-slate-900">
+            {hasSearchSelection ? 'Active' : 'Waiting'}
+          </p>
+        </div>
+      </div>
+
       <div className="relative h-[340px] overflow-hidden rounded-[1.75rem] ring-1 ring-slate-200 sm:h-[420px]">
         <div className="pointer-events-none absolute inset-x-6 top-4 z-[400] flex items-center justify-between rounded-full border border-white/80 bg-white/90 px-4 py-2 text-xs font-medium text-slate-700 shadow-lg backdrop-blur">
           <span className="inline-flex items-center gap-2">
@@ -333,6 +386,62 @@ function SafetyMap({ selectedProfile, selectedCategory, searchQuery }) {
                 ))}
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {filteredLocations.length > 0 && (
+        <div className="rounded-[1.5rem] border border-slate-200 bg-white px-4 py-4 ring-1 ring-slate-100">
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-semibold text-slate-900">Nearby places</p>
+            <span className="text-xs uppercase tracking-[0.18em] text-slate-500">
+              Tap to inspect
+            </span>
+          </div>
+
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            {filteredLocations.map((location) => {
+              const isActive = selectedLocation?.id === location.id;
+
+              return (
+                <button
+                  key={location.id}
+                  type="button"
+                  onClick={() => setSelectedLocation(location)}
+                  className={`rounded-[1.25rem] border p-4 text-left transition ${
+                    isActive
+                      ? 'border-emerald-200 bg-emerald-50 shadow-sm'
+                      : 'border-slate-200 bg-slate-50 hover:border-slate-300 hover:bg-white'
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-base font-semibold text-slate-900">
+                        {location.name}
+                      </p>
+                      <p className="mt-1 text-xs uppercase tracking-[0.18em] text-slate-500">
+                        {location.categories.join(' . ')}
+                      </p>
+                    </div>
+                    <span
+                      className={`rounded-full px-3 py-1 text-xs font-semibold ${
+                        location.safetyScore >= 75
+                          ? 'bg-emerald-100 text-emerald-700'
+                          : location.safetyScore >= 45
+                            ? 'bg-amber-100 text-amber-700'
+                            : 'bg-rose-100 text-rose-700'
+                      }`}
+                    >
+                      {getScoreLabel(location.safetyScore)}
+                    </span>
+                  </div>
+
+                  <p className="mt-3 text-sm leading-6 text-slate-600">
+                    {location.description}
+                  </p>
+                </button>
+              );
+            })}
           </div>
         </div>
       )}

@@ -4,6 +4,10 @@ import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+import {
+  normalizeSearchCategory,
+  SEARCH_CATEGORY_KEYWORDS,
+} from '../utils/searchCategories';
 import { dummyLocations } from '../utils/dummyLocations';
 
 const DEFAULT_CENTER = [28.6139, 77.209];
@@ -94,16 +98,20 @@ function SafetyMap({ selectedProfile, selectedCategory, searchQuery }) {
 
   const filteredLocations = useMemo(() => {
     const normalizedQuery = searchQuery.trim().toLowerCase();
+    const normalizedCategory = normalizeSearchCategory(selectedCategory || searchQuery);
 
     return nearbyLocations.filter((location) => {
-      const matchesCategory = selectedCategory
-        ? location.categories.includes(selectedCategory)
+      const matchesCategory = normalizedCategory
+        ? location.categories.includes(normalizedCategory)
         : true;
 
       const matchesQuery = normalizedQuery
         ? location.name.toLowerCase().includes(normalizedQuery) ||
           location.categories.some((category) =>
-            category.toLowerCase().includes(normalizedQuery),
+            category.toLowerCase().includes(normalizedQuery) ||
+            (SEARCH_CATEGORY_KEYWORDS[category] || []).some((keyword) =>
+              normalizedQuery.includes(keyword) || keyword.includes(normalizedQuery),
+            ),
           ) ||
           location.supportTags.some((tag) =>
             tag.toLowerCase().includes(normalizedQuery),

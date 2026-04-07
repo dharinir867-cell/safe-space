@@ -1,6 +1,7 @@
 import EmergencyButton from '../components/EmergencyButton';
 import SafetyMap from '../components/SafetyMap';
 import { useMemo, useState } from 'react';
+import { normalizeSearchCategory } from '../utils/searchCategories';
 
 const SEARCH_OPTIONS = [
   { id: 'hospital', label: 'Hospitals' },
@@ -158,7 +159,9 @@ function HomePage({ selectedProfile }) {
                 />
                 <button
                   type="button"
-                  onClick={() => setSelectedCategory(searchQuery.trim().toLowerCase())}
+                  onClick={() =>
+                    setSelectedCategory(normalizeSearchCategory(searchQuery))
+                  }
                   className="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-700"
                 >
                   Search Nearby
@@ -175,7 +178,7 @@ function HomePage({ selectedProfile }) {
                       type="button"
                       onClick={() => {
                         setSelectedCategory(option.id);
-                        setSearchQuery(option.label.toLowerCase());
+                        setSearchQuery(option.label);
                       }}
                       className={`rounded-full px-4 py-2 text-sm font-medium transition ${
                         isActive

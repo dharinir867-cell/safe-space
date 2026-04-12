@@ -12,7 +12,7 @@ export const dummyLocations = [
     supportTags: ['24/7 staff', 'Wheelchair entry', 'Emergency desk'],
     profileSupport: {
       Women: ['Maternity wing', 'Breastfeeding room'],
-      Trans: ['Gender-neutral restroom', 'Inclusive help desk'],
+      Transgender: ['Gender-neutral restroom', 'Inclusive help desk'],
       Elderly: ['Elder support desk', 'Wheelchair assistance'],
       Child: ['Pediatric unit', 'Family waiting area'],
     },
@@ -30,7 +30,7 @@ export const dummyLocations = [
     supportTags: ['CCTV nearby', 'Well-lit entry', 'Caretaker support'],
     profileSupport: {
       Women: ['Sanitary pad vending', 'Breastfeeding booth'],
-      Trans: ['Trans-friendly access', 'Gender-neutral stall'],
+      Transgender: ['Trans-friendly access', 'Gender-neutral stall'],
       Elderly: ['Grab rails', 'Low-step access'],
       Child: ['Baby changing station', 'Family cubicle'],
     },
@@ -48,7 +48,7 @@ export const dummyLocations = [
     supportTags: ['Reception desk', 'Street lighting', 'Private rooms'],
     profileSupport: {
       Women: ['Women-friendly rooms', 'Late-night front desk'],
-      Trans: ['Inclusive check-in support'],
+      Transgender: ['Inclusive check-in support'],
       Elderly: ['Lift access', 'Ground-floor room option'],
       Child: ['Family room option', 'Extra bedding'],
     },
@@ -66,7 +66,7 @@ export const dummyLocations = [
     supportTags: ['Day clinic', 'Reception support', 'CCTV nearby'],
     profileSupport: {
       Women: ['Prenatal checkup desk'],
-      Trans: ['Inclusive registration support'],
+      Transgender: ['Inclusive registration support'],
       Elderly: ['Priority seating', 'Assisted entry'],
       Child: ['Child care desk'],
     },
@@ -84,7 +84,7 @@ export const dummyLocations = [
     supportTags: ['24/7 reception', 'Lobby cameras', 'Cab access'],
     profileSupport: {
       Women: ['Women-only floor option'],
-      Trans: ['Inclusive booking support'],
+      Transgender: ['Inclusive booking support'],
       Elderly: ['Porter assistance'],
       Child: ['Family check-in support'],
     },

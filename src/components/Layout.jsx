@@ -4,6 +4,10 @@ import { auth } from '../services/firebase';
 
 function Layout({ user }) {
   const handleSignOut = async () => {
+    if (!auth) {
+      return;
+    }
+
     await signOut(auth);
   };
 

@@ -17,6 +17,12 @@ function AuthPage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrorMessage('');
+
+    if (!auth) {
+      setErrorMessage('Authentication is not available. Check your Firebase configuration.');
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -138,7 +144,7 @@ function AuthPage() {
               onChange={(event) => setPassword(event.target.value)}
               className="w-full rounded-2xl border border-sky-100 bg-sky-50/40 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-sky-500 focus:ring-4 focus:ring-sky-50"
               placeholder="Enter your password"
-              minLength="6"
+              minLength={6}
               required
             />
           </div>

@@ -17,7 +17,7 @@ function HomePage({ selectedProfile }) {
     switch (selectedProfile) {
       case 'Women':
         return 'Search for hospitals, restrooms, or hotels with maternity and breastfeeding support.';
-      case 'Trans':
+      case 'Transgender':
         return 'Search for spaces with inclusive access, trans-friendly restrooms, and respectful support.';
       case 'Elderly':
         return 'Search for places with wheelchair assistance, lift access, and elder support.';
